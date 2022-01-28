@@ -6,7 +6,7 @@ def modifyjson(filename, config, playermap):
     prompt = f'[{filename}]'
     # if filename change it's deactivated via config it exits
     if not config[f'change_{filename[:-5]}']:
-        return print(f'{prompt} Skipped, change_whitelist: {config[f"change_{filename[:-5]}"]}')
+        return print(f'{prompt} Skipped, change_{filename[:-5]}: {config[f"change_{filename[:-5]}"]}')
     # open, loads & closes file
     filepath = os.path.join(config['server_directory'], filename)
     # if file doesn't exist, returns with error print
