@@ -1,0 +1,17 @@
+# Confile file for uuid-world-converter
+# https://github.com/legendnightt/uuid-world-converter
+
+# Server Directory
+# server
+#   for vanilla server
+# server/server
+#   for MCDR server
+server_directory: server/server
+
+# World Directory
+world_directory: world
+
+# Changing /server uuids
+change_whitelist: true
+change_ops: true
+change_banned-players: true
