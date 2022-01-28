@@ -15,3 +15,8 @@ world_directory: world
 change_whitelist: true
 change_ops: true
 change_banned-players: true
+
+# Changing /world uuids
+change_playerdata: true
+change_stats: true
+change_advancements: true

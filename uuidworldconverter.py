@@ -1,7 +1,7 @@
 import os.path
 import yaml
 
-from utils.modify import modifyjson
+from utils.modify import modifyjson, modifyfolder
 from utils.player import getplayermap
 
 # mode selector
@@ -22,5 +22,11 @@ if not playermap.__sizeof__() == 0:
     modifyjson('ops.json', config, playermap)
     # banned-players.json uuid changer
     modifyjson('banned-players.json', config, playermap)
+    # /playerdata uuid changer
+    modifyfolder('playerdata', config, playermap)
+    # /stats uuid changer
+    modifyfolder('stats', config, playermap)
+    # /advancements uuid changer
+    modifyfolder('advancements', config, playermap)
 else:
-    print('[whitelist.json] file not found, exiting...')
+    print('[whitelist.json] File not found, exiting...')
