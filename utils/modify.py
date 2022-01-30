@@ -33,10 +33,13 @@ class Modify:
         if file_change:
             # open file_name in write mode
             write_file = open(file_path, 'w')
-            # save changes into the file in the disk, then closes it
-            json.dump(file_json, write_file, indent=4)
+            try:
+                # save changes into the file in the disk, then closes it
+                json.dump(file_json, write_file, indent=4)
+                print(f'{prompt} Successfully written json to file: {file_path}')
+            except:
+                print(f'{prompt} ERROR could not dump json: {file_path}')
             write_file.close()
-            print(f'{prompt} Successfully written json to file: {file_path}')
         else:
             print(f'{prompt} Nothing changed so file stays same: {file_path}')
 
