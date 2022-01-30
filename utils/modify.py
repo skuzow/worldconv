@@ -2,64 +2,70 @@ import json
 import os
 
 
-def modifyjson(filename, config, playermap):
-    prompt = f'[{filename}]'
-    # if filename change it's deactivated via config it exits
-    if not config[f'change_{filename[:-5]}']:
-        return print(f'{prompt} Skipped, change_{filename[:-5]}: {config[f"change_{filename[:-5]}"]}')
-    filepath = os.path.join(config['server_directory'], filename)
-    # if file doesn't exist, returns with error print
-    if not os.path.isfile(filepath):
-        return print(f'{prompt} ERROR file not found in directory: {filepath}')
-    # open, loads & closes filename in read mode
-    readfile = open(filepath, 'r')
-    filejson = json.load(readfile)
-    readfile.close()
-    # for each in filejson
-    print(f'{prompt} Starting changing file: {filepath}')
-    filechange = False
-    for player in filejson:
-        if player['uuid'] in playermap:
-            print(f'{prompt} {playermap[player["uuid"]][1]} : {player["uuid"]} -> {playermap[player["uuid"]][0]}')
-            player['uuid'] = playermap[player['uuid']][0]
-            filechange = True
-    # if something was changed
-    if filechange:
-        # open filename in write mode
-        writefile = open(filepath, 'w')
-        # save changes into the file in the disk, then closes it
-        json.dump(filejson, writefile, indent=4)
-        writefile.close()
-        print(f'{prompt} Successfully written json to file: {filepath}')
-    else:
-        print(f'{prompt} Nothing changed so file stays same: {filepath}')
+class Modify:
 
+    def __init__(self, config, player_map):
+        self.__config = config
+        self.__player_map = player_map
 
-def modifyfolder(folder, config, playermap):
-    prompt = f'[{folder}]'
-    # if folder change it's deactivated via config it exits
-    if not config[f'change_{folder}']:
-        return print(f'{prompt} Skipped, change_{folder}: {config[f"change_{folder}"]}')
-    folderpath = os.path.join(config['server_directory'], config['world_directory'], folder)
-    # if folder doesn't exist, returns with error print
-    if not os.path.isdir(folderpath):
-        return print(f'{prompt} ERROR not found directory: {folderpath}')
-    # for each in folderpath
-    print(f'{prompt} Starting changing folder files: {folderpath}')
-    filechange = False
-    for filename in os.listdir(folderpath):
-        filesplit = str(filename).split(".")
-        fileuuid = filesplit[0]
-        if fileuuid in playermap:
-            oldname = os.path.abspath(os.path.join(folderpath, filename))
-            newname = os.path.abspath(os.path.join(folderpath, f'{playermap[fileuuid][0]}.{filesplit[1]}'))
-            try:
-                os.rename(oldname, newname)
-                filechange = True
-                print(f'{prompt} {playermap[fileuuid][1]} : {filename} -> {playermap[fileuuid][0]}.{filesplit[1]}')
-                print(f'{prompt} oldpath: {oldname}')
-                print(f'{prompt} newpath: {newname}')
-            except:
-                print(f'{prompt} ERROR could not rename file: {filename}')
-    if not filechange:
-        print(f'{prompt} Nothing changed so folder stays same: {folderpath}')
+    def modify_json(self, file):
+        prompt = f'[{file["name"]}]'
+        # if filename change it's deactivated via __config it exits
+        if not file['enable']:
+            return print(f'{prompt} Skipped, {file["name"]}: {file["enable"]}')
+        file_path = os.path.join(self.__config['server_directory'], file['name'])
+        # if file doesn't exist, returns with error print
+        if not os.path.isfile(file_path):
+            return print(f'{prompt} ERROR file not found in directory: {file_path}')
+        # open, loads & closes filename in read __mode
+        read_file = open(file_path, 'r')
+        file_json = json.load(read_file)
+        read_file.close()
+        # for each in file_json
+        print(f'{prompt} Starting changing file: {file_path}')
+        file_change = False
+        for player in file_json:
+            if player['uuid'] in self.__player_map:
+                print(f'{prompt} {self.__player_map[player["uuid"]][1]} : {player["uuid"]} -> {self.__player_map[player["uuid"]][0]}')
+                player['uuid'] = self.__player_map[player['uuid']][0]
+                file_change = True
+        # if something was changed
+        if file_change:
+            # open filename in write __mode
+            write_file = open(file_path, 'w')
+            # save changes into the file in the disk, then closes it
+            json.dump(file_json, write_file, indent=4)
+            write_file.close()
+            print(f'{prompt} Successfully written json to file: {file_path}')
+        else:
+            print(f'{prompt} Nothing changed so file stays same: {file_path}')
+
+    def modify_folder(self, folder):
+        prompt = f'[{folder["name"]}]'
+        # if folder change it's deactivated via __config it exits
+        if not folder['enable']:
+            return print(f'{prompt} Skipped, {folder["name"]}: {folder["enable"]}')
+        folder_path = os.path.join(self.__config['server_directory'], self.__config['world_directory'], folder['name'])
+        # if folder doesn't exist, returns with error print
+        if not os.path.isdir(folder_path):
+            return print(f'{prompt} ERROR not found directory: {folder_path}')
+        # for each in folder_path
+        print(f'{prompt} Starting changing folder files: {folder_path}')
+        file_change = False
+        for file in os.listdir(folder_path):
+            file_split = str(file).split(".")
+            file_uuid = file_split[0]
+            if file_uuid in self.__player_map:
+                old_name = os.path.abspath(os.path.join(folder_path, file))
+                new_name = os.path.abspath(os.path.join(folder_path, f'{self.__player_map[file_uuid][0]}.{file_split[1]}'))
+                try:
+                    # changes filename
+                    os.rename(old_name, new_name)
+                    file_change = True
+                    print(f'{prompt} {self.__player_map[file_uuid][1]} : {file} -> {self.__player_map[file_uuid][0]}.{file_split[1]}')
+                    print(f'{prompt} oldpath: {old_name}')
+                    print(f'{prompt} newpath: {new_name}')
+                except:
+                    print(f'{prompt} ERROR could not rename file: {file}')
+        if not file_change:
+            print(f'{prompt} Nothing changed so folder stays same: {folder_path}')

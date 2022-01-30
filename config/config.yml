@@ -1,4 +1,4 @@
-# Confile file for uuid-world-converter
+# Config file for uuid-world-converter
 # https://github.com/legendnightt/uuid-world-converter
 
 # Server Directory
@@ -12,11 +12,22 @@ server_directory: server/server
 world_directory: world
 
 # Changing /server uuids
-change_whitelist: true
-change_ops: true
-change_banned-players: true
+# IMPORTANT: used for getting player names for getting uuids
+files:
+  - name: whitelist.json
+    enable: true
+  - name: ops.json
+    enable: true
+  - name: banned-players.json
+    enable: true
 
 # Changing /world uuids
-change_playerdata: true
-change_stats: true
-change_advancements: true
+folders:
+  - name: playerdata
+    enable: true
+  - name: stats
+    enable: true
+  - name: advancements
+    enable: true
+
+
