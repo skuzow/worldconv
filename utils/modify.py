@@ -11,9 +11,9 @@ class Modify:
     def modify_json(self, file):
         prompt = f'[{file["name"]}]'
         # if file_name change it's deactivated via config, it exits
-        if not file['enable']:
+        if not file["enable"]:
             return print(f'{prompt} Skipped, {file["name"]}: {file["enable"]}')
-        file_path = os.path.join(self.__config['server_directory'], file['name'])
+        file_path = os.path.join(self.__config["server_directory"], file["name"])
         # if file doesn't exist, returns with error print
         if not os.path.isfile(file_path):
             return print(f'{prompt} ERROR file not found in directory: {file_path}')
@@ -25,9 +25,9 @@ class Modify:
         print(f'{prompt} Starting changing file: {file_path}')
         file_change = False
         for player in file_json:
-            if player['uuid'] in self.__player_map:
+            if player["uuid"] in self.__player_map:
                 print(f'{prompt} {self.__player_map[player["uuid"]][1]} : {player["uuid"]} -> {self.__player_map[player["uuid"]][0]}')
-                player['uuid'] = self.__player_map[player['uuid']][0]
+                player["uuid"] = self.__player_map[player["uuid"]][0]
                 file_change = True
         # if something was changed
         if file_change:
@@ -46,9 +46,9 @@ class Modify:
     def modify_folder(self, folder):
         prompt = f'[{folder["name"]}]'
         # if folder change it's deactivated via config it exits
-        if not folder['enable']:
+        if not folder["enable"]:
             return print(f'{prompt} Skipped, {folder["name"]}: {folder["enable"]}')
-        folder_path = os.path.join(self.__config['server_directory'], self.__config['world_directory'], folder['name'])
+        folder_path = os.path.join(self.__config["server_directory"], self.__config["world_directory"], folder["name"])
         # if folder doesn't exist, returns with error print
         if not os.path.isdir(folder_path):
             return print(f'{prompt} ERROR not found directory: {folder_path}')

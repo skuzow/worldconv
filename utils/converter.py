@@ -16,7 +16,7 @@ class Converter:
 
     def start(self):
         # generates __player_map with recollecting json file information
-        for file in self.__config['files']:
+        for file in self.__config["files"]:
             self.__generate_player_map(file)
         # if __player_map have stuff inside continues
         if self.__player_map.__sizeof__() == 0:
@@ -27,14 +27,14 @@ class Converter:
             # modify
             modify = Modify(self.__config, self.__player_map)
             # files __uuid changer
-            for file in self.__config['files']:
+            for file in self.__config["files"]:
                 modify.modify_json(file)
             # folder __uuid changer
-            for folder in self.__config['folders']:
+            for folder in self.__config["folders"]:
                 modify.modify_folder(folder)
 
     def __generate_player_map(self, file_name):
-        file_path = os.path.join(self.__config['server_directory'], file_name["name"])
+        file_path = os.path.join(self.__config["server_directory"], file_name["name"])
         # if file_name doesn't exist, returns with error print
         if not os.path.isfile(file_path):
             return print(f'[{file_name["name"]}] ERROR not found')
@@ -46,13 +46,13 @@ class Converter:
         for player in file_json:
             try:
                 if self.__mode == 'offline':
-                    online_uuid = self.__uuid.generate_online(player['name'])
+                    online_uuid = self.__uuid.generate_online(player["name"])
                     if online_uuid not in self.__player_map:
-                        self.__player_map[online_uuid] = [self.__uuid.generate_offline(player['name']), player['name']]
+                        self.__player_map[online_uuid] = [self.__uuid.generate_offline(player["name"]), player["name"]]
                 elif self.__mode == 'online':
-                    offline_uuid = self.__uuid.generate_offline(player['name'])
+                    offline_uuid = self.__uuid.generate_offline(player["name"])
                     if offline_uuid not in self.__player_map:
-                        self.__player_map[offline_uuid] = [self.__uuid.generate_online(player['name']), player['name']]
+                        self.__player_map[offline_uuid] = [self.__uuid.generate_online(player["name"]), player["name"]]
             except:
                 print(f'[{file_name["name"]}] {player["name"]} could not be found as a premium username')
         return self.__player_map
