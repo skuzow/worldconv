@@ -10,14 +10,14 @@ class Modify:
 
     def modify_json(self, file):
         prompt = f'[{file["name"]}]'
-        # if filename change it's deactivated via __config it exits
+        # if file_name change it's deactivated via config, it exits
         if not file['enable']:
             return print(f'{prompt} Skipped, {file["name"]}: {file["enable"]}')
         file_path = os.path.join(self.__config['server_directory'], file['name'])
         # if file doesn't exist, returns with error print
         if not os.path.isfile(file_path):
             return print(f'{prompt} ERROR file not found in directory: {file_path}')
-        # open, loads & closes filename in read __mode
+        # open, loads & closes file_name in read mode
         read_file = open(file_path, 'r')
         file_json = json.load(read_file)
         read_file.close()
@@ -31,7 +31,7 @@ class Modify:
                 file_change = True
         # if something was changed
         if file_change:
-            # open filename in write __mode
+            # open file_name in write mode
             write_file = open(file_path, 'w')
             # save changes into the file in the disk, then closes it
             json.dump(file_json, write_file, indent=4)
@@ -42,7 +42,7 @@ class Modify:
 
     def modify_folder(self, folder):
         prompt = f'[{folder["name"]}]'
-        # if folder change it's deactivated via __config it exits
+        # if folder change it's deactivated via config it exits
         if not folder['enable']:
             return print(f'{prompt} Skipped, {folder["name"]}: {folder["enable"]}')
         folder_path = os.path.join(self.__config['server_directory'], self.__config['world_directory'], folder['name'])
@@ -59,7 +59,7 @@ class Modify:
                 old_name = os.path.abspath(os.path.join(folder_path, file))
                 new_name = os.path.abspath(os.path.join(folder_path, f'{self.__player_map[file_uuid][0]}.{file_split[1]}'))
                 try:
-                    # changes filename
+                    # changes file_name
                     os.rename(old_name, new_name)
                     file_change = True
                     print(f'{prompt} {self.__player_map[file_uuid][1]} : {file} -> {self.__player_map[file_uuid][0]}.{file_split[1]}')

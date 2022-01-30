@@ -34,7 +34,7 @@ class Converter:
         if not os.path.isfile(whitelist_path):
             print('[whitelist.json] ERROR not found')
             return self.__player_map
-        # open, loads & closes whitelist.json in read __mode
+        # open, loads & closes whitelist.json in read mode
         whitelist_file = open(whitelist_path, 'r')
         whitelist = json.load(whitelist_file)
         whitelist_file.close()
@@ -57,11 +57,11 @@ class Converter:
         print('[__player_map] {}'.format(json.dumps(self.__player_map, indent=4)))
         return self.__player_map
 
-    def __check_file(self, filename):
-        file_path = os.path.join(self.__config['server_directory'], filename)
+    def __check_file(self, file_name):
+        file_path = os.path.join(self.__config['server_directory'], file_name)
         if not os.path.isfile(file_path):
-            return print(f'[{filename}] ERROR not found')
-        # open, loads & closes filename in read __mode
+            return print(f'[{file_name}] ERROR not found')
+        # open, loads & closes file_name in read mode
         file = open(file_path, 'r')
         file_json = json.load(file)
         file.close()
@@ -77,4 +77,4 @@ class Converter:
                     if offline_uuid not in self.__player_map:
                         self.__player_map[offline_uuid] = [self.__uuid.generate_online(player['name']), player['name']]
             except:
-                print(f'[{filename}] {player["name"]} could not be found as a premium username')
+                print(f'[{file_name}] {player["name"]} could not be found as a premium username')

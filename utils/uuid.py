@@ -5,6 +5,7 @@ import requests
 class Uuid:
 
     def generate_online(self, username: str):
+        # gets online uuid via mojang api
         online_uuid = self.__add_stripes(requests.get(f'https://api.mojang.com/users/profiles/minecraft/{username}?').json()['id'])
         print(f'[online] username: {username} -> uuid: {online_uuid}')
         return online_uuid
