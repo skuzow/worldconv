@@ -13,7 +13,7 @@ class Modify:
         # if file_name change it's deactivated via config, it exits
         if not file["enable"]:
             return print(f'{prompt} Skipped, {file["name"]}: {file["enable"]}')
-        file_path = os.path.join(self.__config["server_directory"], file["name"])
+        file_path = os.path.join(os.getcwd(), self.__config["server_directory"], file["name"])
         # if file doesn't exist, returns with error print
         if not os.path.isfile(file_path):
             return print(f'{prompt} ERROR file not found in directory: {file_path}')
@@ -48,7 +48,7 @@ class Modify:
         # if folder change it's deactivated via config it exits
         if not folder["enable"]:
             return print(f'{prompt} Skipped, {folder["name"]}: {folder["enable"]}')
-        folder_path = os.path.join(self.__config["server_directory"], self.__config["world_directory"], folder["name"])
+        folder_path = os.path.join(os.getcwd(), self.__config["server_directory"], self.__config["world_directory"], folder["name"])
         # if folder doesn't exist, returns with error print
         if not os.path.isdir(folder_path):
             return print(f'{prompt} ERROR not found directory: {folder_path}')
