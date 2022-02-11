@@ -1,12 +1,21 @@
 import hashlib
+import logging
 import requests
+
+from json import JSONDecodeError
 
 
 def generate_online(username):
     # gets online uuid via mojang api
-    online_uuid = __add_stripes(
-        requests.get(f'https://api.mojang.com/users/profiles/minecraft/{username}?').json()['id'])
-    print(f'[online] username: {username} -> uuid: {online_uuid}')
+    try:
+        online_uuid = __add_stripes(
+            requests.get(f'https://api.mojang.com/users/profiles/minecraft/{username}?').json()['id'])
+        print(f'[online] username: {username} -> uuid: {online_uuid}')
+    except JSONDecodeError:
+        online_uuid = False
+    except Exception as e:
+        online_uuid = False
+        logging.exception(e)
     return online_uuid
 
 

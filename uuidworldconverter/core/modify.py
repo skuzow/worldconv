@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 
@@ -31,15 +32,16 @@ class Modify:
                 file_change = True
         # if something was changed
         if file_change:
-            # open file_name in write mode
-            write_file = open(file_path, 'w')
             try:
+                # opens file_name in write mode
+                write_file = open(file_path, 'w')
                 # save changes into the file in the disk, then closes it
                 json.dump(file_json, write_file, indent=4)
                 print(f'{prompt} Successfully written json to file: {file_path}')
-            except:
+                write_file.close()
+            except Exception as e:
                 print(f'{prompt} ERROR could not dump json: {file_path}')
-            write_file.close()
+                logging.exception(e)
         else:
             print(f'{prompt} Nothing changed so file stays same: {file_path}')
 
@@ -68,7 +70,8 @@ class Modify:
                     print(f'{prompt} {self.__player_map[file_uuid][1]} : {file} -> {self.__player_map[file_uuid][0]}.{file_split[1]}')
                     print(f'{prompt} oldpath: {old_name}')
                     print(f'{prompt} newpath: {new_name}')
-                except:
+                except Exception as e:
                     print(f'{prompt} ERROR could not rename file: {file}')
+                    logging.exception(e)
         if not file_change:
             print(f'{prompt} Nothing changed so folder stays same: {folder_path}')

@@ -1,5 +1,5 @@
+import logging
 import os
-
 import ruamel.yaml
 
 yaml_str = """\
@@ -51,9 +51,12 @@ class Config:
             yaml = ruamel.yaml.YAML()
             self.config = yaml.load(yaml_str)
             try:
+                # opens file_name in append mode
                 configfile = open(self.__path, 'a')
+                # dumps info inside
                 yaml.dump(self.config, configfile)
                 configfile.close()
                 print('Config file created successfully, take a look to change configuration if you need it')
-            except:
+            except Exception as e:
                 print('[config] ERROR saving default config file')
+                logging.exception(e)

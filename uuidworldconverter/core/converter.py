@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 from uuidworldconverter.core.modify import Modify
@@ -45,21 +46,24 @@ class Converter:
         # if file_name doesn't exist, returns with error print
         if not os.path.isfile(file_path):
             return print(f'[{file_name["name"]}] ERROR not found')
-        # open, loads & closes file_name in read mode
-        file = open(file_path, 'r')
-        file_json = json.load(file)
-        file.close()
-        # for each in file_json
-        for player in file_json:
-            try:
-                if self.__mode == 'offline':
-                    online_uuid = uuid.generate_online(player["name"])
-                    if online_uuid not in self.__player_map:
-                        self.__player_map[online_uuid] = [uuid.generate_offline(player["name"]), player["name"]]
-                elif self.__mode == 'online':
+        try:
+            # open, loads & closes file_name in read mode
+            file = open(file_path, 'r')
+            file_json = json.load(file)
+            file.close()
+            # for each in file_json
+            for player in file_json:
+                # checks first if name for getting online uuid is valid
+                online_uuid = uuid.generate_online(player["name"])
+                if online_uuid:
                     offline_uuid = uuid.generate_offline(player["name"])
-                    if offline_uuid not in self.__player_map:
-                        self.__player_map[offline_uuid] = [uuid.generate_online(player["name"]), player["name"]]
-            except:
-                print(f'[{file_name["name"]}] {player["name"]} could not be found as a premium username')
-        return self.__player_map
+                    if self.__mode == 'offline' and online_uuid not in self.__player_map:
+                        self.__player_map[online_uuid] = [offline_uuid, player["name"]]
+                    elif self.__mode == 'online' and offline_uuid not in self.__player_map:
+                        self.__player_map[offline_uuid] = [online_uuid, player["name"]]
+                else:
+                    print(f'[{file_name["name"]}] {player["name"]} could not be found as a premium username')
+            return self.__player_map
+        except Exception as e:
+            print(f'[{file_name["name"]}] ERROR could not load file for getting information')
+            logging.exception(e)
