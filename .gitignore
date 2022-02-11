@@ -129,10 +129,8 @@ dmypy.json
 .pyre/
 
 # IDE
-/.idea/
+.idea/
 
 # Python packages
 *.pyz
-
-# server path
-/server
+package/
