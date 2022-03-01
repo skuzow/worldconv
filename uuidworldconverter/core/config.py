@@ -15,6 +15,8 @@ world_directory: world
 # Changing /server uuids
 # IMPORTANT: used for getting player names for obtaining uuids
 files:
+  - name: usercache.json
+    enable: true
   - name: whitelist.json
     enable: true
   - name: ops.json
