@@ -2,6 +2,7 @@ import json
 import logging
 import os
 
+from uuidworldconverter.utils import logger
 from uuidworldconverter.core.modify import Modify
 from uuidworldconverter.utils import uuid
 
@@ -17,26 +18,26 @@ class Converter:
     def start(self):
         # checks mojang api status, or internet connection
         if uuid.generate_online('legendh'):
-            print('[Mojang] Api working, so continues!')
+            print(f'[{logger.INFO}] Mojang api working, so continues!')
         else:
-            return print('[ERROR] Mojang api not working, or not internet connection, exiting...')
+            return print(f'[{logger.ERROR}] Mojang api not working, or not internet connection, exiting...')
         # checks if server folder exists, if it doesn't create it
         server_path = os.path.join(os.getcwd(), self.__config["server_directory"])
         if not os.path.isdir(server_path):
             os.mkdir(server_path)
-            return print('[WARNING] Server folder successfully created so its but empty :(, exiting...')
+            return print(f'[{logger.WARNING}] Server folder successfully created so its but empty :(, exiting...')
         elif not os.listdir(server_path):
-            return print('[ERROR] Server folder is empty!, place your server inside it, exiting...')
-        print(f'Starting converting with mode {self.__mode} selected')
+            return print(f'[{logger.ERROR}] Server folder is empty!, place your server inside it, exiting...')
+        print(f'[{logger.INFO}] Starting converting with mode {self.__mode} selected')
         # generates __player_map with recollecting json file information
         for file in self.__config["files"]:
             self.__generate_player_map(file)
         # if __player_map have stuff inside continues
         if self.__player_map.__sizeof__() == 0:
-            print('[ERROR] Obtainable uuid files not found, exiting...')
+            print(f'[{logger.ERROR}] Obtainable uuid files not found, exiting...')
         else:
             # prints "pretty" __player_map
-            print('[player_map] {}'.format(json.dumps(self.__player_map, indent=4)))
+            print(f'[{logger.INFO}] [player_map] {json.dumps(self.__player_map, indent=4)}')
             # modify
             modify = Modify(self.__config, self.__player_map)
             # files __uuid changer
@@ -50,7 +51,7 @@ class Converter:
         file_path = os.path.join(os.getcwd(), self.__config["server_directory"], file_name["name"])
         # if file_name doesn't exist, returns with error print
         if not os.path.isfile(file_path):
-            return print(f'[{file_name["name"]}] ERROR not found')
+            return print(f'[{logger.ERROR}] [{file_name["name"]}] File not found in: {file_path}')
         try:
             # open, loads & closes file_name in read mode
             file = open(file_path, 'r')
@@ -67,8 +68,8 @@ class Converter:
                     elif self.__mode == 'online' and offline_uuid not in self.__player_map:
                         self.__player_map[offline_uuid] = [online_uuid, player["name"]]
                 else:
-                    print(f'[{file_name["name"]}] {player["name"]} could not be found as a premium username')
+                    print(f'[{logger.WARNING}] [{file_name["name"]}] {player["name"]} could not be found as a premium username')
             return self.__player_map
         except Exception as e:
-            print(f'[{file_name["name"]}] ERROR could not load file for getting information')
+            print(f'[{logger.ERROR}] [{file_name["name"]}] Could not load file for getting information in: {file_path}')
             logging.exception(e)

@@ -1,5 +1,6 @@
 import sys
 
+from uuidworldconverter.utils import logger
 from uuidworldconverter.core.config import Config
 from uuidworldconverter.core.converter import Converter
 
@@ -27,8 +28,8 @@ def main():
             config.start()
             entry(config.config)
         else:
-            print(f'Unknown argument provided: {arg[2:]}')
+            print(f'[{logger.ERROR}] Unknown argument provided: {arg[2:]}')
     else:
         prefix = f'python {sys.argv[0]}'
-        print(f'{prefix} offline: Starts converter from online to offline')
-        print(f'{prefix} online: Starts converter from offline to online')
+        print(f'[{logger.INFO}] {prefix} offline: Starts converter from online to offline')
+        print(f'[{logger.INFO}] {prefix} online: Starts converter from offline to online')

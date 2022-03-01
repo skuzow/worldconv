@@ -2,6 +2,8 @@ import logging
 import os
 import ruamel.yaml
 
+from uuidworldconverter.utils import logger
+
 yaml_str = """\
 # Config file for uuid-world-converter
 # https://github.com/legendnightt/uuid-world-converter
@@ -58,7 +60,7 @@ class Config:
                 # dumps info inside
                 yaml.dump(self.config, configfile)
                 configfile.close()
-                print('Config file created successfully, take a look to change configuration if you need it')
+                print(f'[{logger.INFO}] Config file created successfully, take a look to change configuration if you need it')
             except Exception as e:
-                print('[config] ERROR saving default config file')
+                print(f'[{logger.ERROR}] There was a problem saving default config file')
                 logging.exception(e)

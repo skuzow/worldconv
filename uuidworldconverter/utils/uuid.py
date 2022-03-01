@@ -5,6 +5,7 @@ import requests
 # import re
 
 from json import JSONDecodeError
+from uuidworldconverter.utils import logger
 
 
 """ mojang removed it :(
@@ -16,9 +17,8 @@ def check_mojang_api():
 def generate_online(username):
     # gets online uuid via mojang api
     try:
-        online_uuid = __add_stripes(
-            requests.get(f'https://api.mojang.com/users/profiles/minecraft/{username}?').json()["id"])
-        print(f'[online] username: {username} -> uuid: {online_uuid}')
+        online_uuid = __add_stripes(requests.get(f'https://api.mojang.com/users/profiles/minecraft/{username}?').json()["id"])
+        print(f'[{logger.INFO}] [online] username: {username} -> uuid: {online_uuid}')
         time.sleep(0.5)
     except JSONDecodeError:
         online_uuid = False
@@ -37,7 +37,7 @@ def generate_offline(username):
     byte_array[6] = hash[6] & 0x0f | 0x30
     byte_array[8] = hash[8] & 0x3f | 0x80
     offline_uuid = __add_stripes(bytes(byte_array).hex())
-    print(f'[offline] username: {username} -> uuid: {offline_uuid}')
+    print(f'[{logger.INFO}] [offline] username: {username} -> uuid: {offline_uuid}')
     return offline_uuid
 
 
