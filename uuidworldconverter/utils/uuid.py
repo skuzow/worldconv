@@ -1,16 +1,25 @@
 import hashlib
 import logging
+import time
 import requests
+# import re
 
 from json import JSONDecodeError
+
+
+""" mojang removed it :(
+def check_mojang_api():
+    return True if requests.get(f'https://status.mojang.com/check').json()[5]["api.mojang.com"] == 'green' else False
+"""
 
 
 def generate_online(username):
     # gets online uuid via mojang api
     try:
         online_uuid = __add_stripes(
-            requests.get(f'https://api.mojang.com/users/profiles/minecraft/{username}?').json()['id'])
+            requests.get(f'https://api.mojang.com/users/profiles/minecraft/{username}?').json()["id"])
         print(f'[online] username: {username} -> uuid: {online_uuid}')
+        time.sleep(0.5)
     except JSONDecodeError:
         online_uuid = False
     except Exception as e:
@@ -30,6 +39,22 @@ def generate_offline(username):
     offline_uuid = __add_stripes(bytes(byte_array).hex())
     print(f'[offline] username: {username} -> uuid: {offline_uuid}')
     return offline_uuid
+
+
+"""
+def generate_player_name(uuid):
+    # removes stripes
+    proper_uuid = re.sub('[-]', '', uuid)
+    # tries to get player name via mojang api
+    try:
+        name = requests.get(f'https://api.mojang.com/user/profiles/{proper_uuid}/names').json()[0]["name"]
+    except JSONDecodeError:
+        name = False
+    except Exception as e:
+        name = False
+        logging.exception(e)
+    return name
+"""
 
 
 def __add_stripes(uuid):

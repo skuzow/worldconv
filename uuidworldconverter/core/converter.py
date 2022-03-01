@@ -15,7 +15,11 @@ class Converter:
         self.__player_map = {}
 
     def start(self):
-        print(f'Starting converting with mode {self.__mode} selected')
+        # checks mojang api status, or internet connection
+        if uuid.generate_online('legendh'):
+            print('[Mojang] Api working, so continues!')
+        else:
+            return print('[ERROR] Mojang api not working, or not internet connection, exiting...')
         # checks if server folder exists, if it doesn't create it
         server_path = os.path.join(os.getcwd(), self.__config["server_directory"])
         if not os.path.isdir(server_path):
@@ -23,6 +27,7 @@ class Converter:
             return print('[WARNING] Server folder successfully created so its but empty :(, exiting...')
         elif not os.listdir(server_path):
             return print('[ERROR] Server folder is empty!, place your server inside it, exiting...')
+        print(f'Starting converting with mode {self.__mode} selected')
         # generates __player_map with recollecting json file information
         for file in self.__config["files"]:
             self.__generate_player_map(file)
