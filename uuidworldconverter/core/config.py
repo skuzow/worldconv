@@ -62,5 +62,5 @@ class Config:
                 configfile.close()
                 print(f'[{logger.INFO}] Config file created successfully, take a look to change configuration if you need it')
             except Exception as e:
-                print(f'[{logger.ERROR}] There was a problem saving default config file')
                 logging.exception(e)
+                print(f'[{logger.ERROR}] There was a problem saving default config file')

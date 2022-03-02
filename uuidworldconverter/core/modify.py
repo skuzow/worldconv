@@ -9,7 +9,7 @@ class Modify:
 
     def __init__(self, config, player_map):
         self.__config = config
-        self.__player_map = player_map
+        self.__uuid_map = player_map
 
     def modify_json(self, file):
         # if file_name change it's deactivated via config, it exits
@@ -27,10 +27,10 @@ class Modify:
         print(f'[{logger.INFO}] [{file["name"]}] Starting changing file: {file_path}')
         file_change = False
         for player in file_json:
-            if player["uuid"] in self.__player_map:
+            if player["uuid"] in self.__uuid_map:
                 print(
-                    f'[{logger.INFO}] [{file["name"]}] {self.__player_map[player["uuid"]][1]} : {player["uuid"]} -> {self.__player_map[player["uuid"]][0]}')
-                player["uuid"] = self.__player_map[player["uuid"]][0]
+                    f'[{logger.INFO}] [{file["name"]}] {self.__uuid_map[player["uuid"]][1]} : {player["uuid"]} -> {self.__uuid_map[player["uuid"]][0]}')
+                player["uuid"] = self.__uuid_map[player["uuid"]][0]
                 file_change = True
         # if something was changed
         if file_change:
@@ -62,19 +62,19 @@ class Modify:
         for file in os.listdir(folder_path):
             file_split = str(file).split(".")
             file_uuid = file_split[0]
-            if file_uuid in self.__player_map:
+            if file_uuid in self.__uuid_map:
                 old_name = os.path.abspath(os.path.join(folder_path, file))
                 new_name = os.path.abspath(
-                    os.path.join(folder_path, f'{self.__player_map[file_uuid][0]}.{file_split[1]}'))
+                    os.path.join(folder_path, f'{self.__uuid_map[file_uuid][0]}.{file_split[1]}'))
                 try:
                     # changes file_name
                     os.rename(old_name, new_name)
                     file_change = True
-                    print(f'[{logger.INFO}] [{folder["name"]}] {self.__player_map[file_uuid][1]} : {file} -> {self.__player_map[file_uuid][0]}.{file_split[1]}')
+                    print(f'[{logger.INFO}] [{folder["name"]}] {self.__uuid_map[file_uuid][1]} : {file} -> {self.__uuid_map[file_uuid][0]}.{file_split[1]}')
                     print(f'[{logger.INFO}] [{folder["name"]}] oldpath: {old_name}')
                     print(f'[{logger.INFO}] [{folder["name"]}] newpath: {new_name}')
                 except Exception as e:
-                    print(f'[{logger.ERROR}] [{folder["name"]}] Could not rename file: {file}')
                     logging.exception(e)
+                    print(f'[{logger.ERROR}] [{folder["name"]}] Could not rename file: {file}')
         if not file_change:
             print(f'[{logger.WARNING}] [{folder["name"]}] Nothing changed so folder stays same: {folder_path}')
