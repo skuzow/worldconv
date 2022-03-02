@@ -19,7 +19,7 @@ class Converter:
 
     def start(self):
         # checks mojang api status, or internet connection
-        if uuid.generate_online('legendh'):
+        if uuid.generate_online('legendh', True):
             print(f'[{logger.INFO}] Mojang api working, so continues!')
         else:
             return print(f'[{logger.ERROR}] Mojang api not working, or not internet connection, exiting...')
@@ -65,7 +65,7 @@ class Converter:
                 if player["name"] not in self.__player_list:
                     self.__player_list.append(player["name"])
                     # checks if name for getting online uuid is valid
-                    online_uuid = uuid.generate_online(player["name"])
+                    online_uuid = uuid.generate_online(player["name"], False)
                     if online_uuid:
                         offline_uuid = uuid.generate_offline(player["name"])
                         if self.__mode == 'offline' and online_uuid not in self.__uuid_map:

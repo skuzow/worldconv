@@ -7,13 +7,14 @@ import requests
 from json import JSONDecodeError
 from uuidworldconverter.utils import logger
 
+
 """ mojang removed it :(
 def check_mojang_api():
     return True if requests.get(f'https://status.mojang.com/check').json()[5]["api.mojang.com"] == 'green' else False
 """
 
 
-def generate_online(username):
+def generate_online(username, check):
     # gets online uuid via mojang api
     while True:
         try:
@@ -25,9 +26,13 @@ def generate_online(username):
             online_uuid = False
             break
         except Exception as e:
-            logging.exception(e)
-            print(f'[{logger.WARNING}] Mojang api not working properly for {username} so, will try again in 5s')
-            time.sleep(5)
+            if check:
+                logging.exception(e)
+                online_uuid = False
+                break
+            else:
+                print(f'[{logger.WARNING}] Mojang api not working properly for {username} so, will try again in 5s')
+                time.sleep(5)
     return online_uuid
 
 
