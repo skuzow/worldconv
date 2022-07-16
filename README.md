@@ -1,5 +1,59 @@
-# uuid-world-converter
+# 🗃 UUID World Converter
 
 [![license](https://img.shields.io/github/license/skuzow/uuid-world-converter.svg)](https://github.com/skuzow/uuid-world-converter/blob/master/LICENSE)
 
-python script that allows to convert minecraft server data, from online to offline and reverse.
+Minecraft world data server converter from online to offline and reverse.
+
+## 🗿 Usage
+
+- `python uuid-world-converter.pyz` Display available options
+- `python uuid-world-converter.pyz offline` Offline Mode
+- `python uuid-world-converter.pyz online` Online Mode
+
+## 💾 Config
+
+Location: `uuid-world-converter.pyz directory`
+
+```yaml
+# Config file for uuid-world-converter
+# https://github.com/skuzow/uuid-world-converter
+
+# Server Directory
+server_directory: server
+
+# World Directory
+world_directory: world
+
+# Changing /server uuids
+# IMPORTANT: used for getting player names for obtaining uuids
+files:
+  - name: usercache.json
+    enable: true
+  - name: whitelist.json
+    enable: true
+  - name: ops.json
+    enable: true
+  - name: banned-players.json
+    enable: true
+
+# Changing /world uuids
+folders:
+  - name: playerdata
+    enable: true
+  - name: stats
+    enable: true
+  - name: advancements
+    enable: true
+```
+
+## 🗂️ Required Python libraries
+
+- [colorama](https://pypi.org/project/colorama)
+- [requests](https://pypi.org/project/requests)
+- [ruamel.yaml](https://pypi.org/project/ruamel.yaml)
+
+To install them execute:
+
+```bash
+  pip install -r requirements.txt
+```
