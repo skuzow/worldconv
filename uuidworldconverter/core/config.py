@@ -6,7 +6,7 @@ from uuidworldconverter.utils import logger
 
 yaml_str = """\
 # Config file for uuid-world-converter
-# https://github.com/legendnightt/uuid-world-converter
+# https://github.com/skuzow/uuid-world-converter
 
 # Server Directory
 server_directory: server
