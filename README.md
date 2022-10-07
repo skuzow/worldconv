@@ -6,13 +6,13 @@ Minecraft world data server converter from online to offline and reverse.
 
 ## 🗿 Usage
 
-- `python uuid-world-converter.pyz` Display available options
-- `python uuid-world-converter.pyz offline` Offline Mode
-- `python uuid-world-converter.pyz online` Online Mode
+- `python uuidworldconverter.pyz` Display available options
+- `python uuidworldconverter.pyz offline` Offline Mode
+- `python uuidworldconverter.pyz online` Online Mode
 
 ## 💾 Config
 
-Location: `uuid-world-converter.pyz directory`
+Location: `uuidworldconverter.pyz directory`
 
 ```yaml
 # Config file for uuid-world-converter
