@@ -1,0 +1,48 @@
+[project]
+name = "worldconv"
+version = "0.0.1"
+description = "Minecraft world data server converter online & offline"
+readme = "README.md"
+requires-python = ">=3.7"
+# license = { file = "LICENSE" }
+keywords = [ "world", "server", "minecraft", "command", "setuptools", "tool" ]
+authors = [
+  { name = "skuzow", email = "alex@skuzow.net" }
+]
+maintainers = [ ]
+classifiers = [
+  #   3 - Alpha
+  #   4 - Beta
+  #   5 - Production/Stable
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3 :: Only"
+]
+dependencies = [ ]
+
+[project.optional-dependencies]
+dev = [ ]
+test = [ ]
+
+[project.urls]
+"Homepage" = "https://github.com/skuzow/worldconv"
+"Bug Reports" = "https://github.com/skuzow/worldconv/issues"
+"Source" = "https://github.com/skuzow/worldconv"
+
+[project.scripts]
+worldconv = "worldconv:main"
+
+[tool.setuptools]
+# package-data = { "worldconv" = ["*.dat"] }
+
+[build-system]
+requires = [ "setuptools>=43.0.0", "wheel", "colorama", "requests", "ruamel.yaml" ]
+build-backend = "setuptools.build_meta"
